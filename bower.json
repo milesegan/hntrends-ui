@@ -1,0 +1,21 @@
+{
+  "name": "hntrend",
+  "version": "0.0.0",
+  "authors": [
+    "Miles Egan <miles@plastaq.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "d3": "~3.4.13",
+    "react": "~0.12.0",
+    "lodash": "~2.4.1",
+    "bootstrap": "~3.3.0"
+  }
+}
