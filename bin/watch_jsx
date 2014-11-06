@@ -1,0 +1,3 @@
+#!/bin/sh
+
+jsx --harmony -x jsx -w jsx public/js
