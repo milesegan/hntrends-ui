@@ -11,26 +11,33 @@ var Chart = React.createClass({
     d3.destroy(el);
   },
   render() {
-    return (<div className="chart"></div>);
+    return (<svg width='200' height='200' className="chart"></svg>);
   },
   shouldComponentUpdate() {
     this.updateChart();
     return false;
   },
   updateChart() {
-    d3.select(this.getDOMNode())
-      .svg
-      .line()
-      .x((d) => { return d; })
-      .y((d) => { return d; });
+    var c = d3.select(this.getDOMNode());
+    var lineFunc = d3.svg.line()
+      .x(d => d.x * 10)
+      .y(d => d.y * 5)
+      .interpolate('linear');
+    c.append('path')
+      .attr('d', lineFunc(this.props.data))
+      .attr('stroke', 'blue')
+      .attr('stroke-width', 2)
+      .attr('fill', 'none');
   }
 });
 
 var HNTrendUI = React.createClass({
   getInitialState() {
     var sampleData = [
-      {id: '5fbmzmtc', x: 7, y: 41, z: 6},
-      {id: 's4f8phwm', x: 11, y: 45, z: 9},
+      {x: 1, y: 2},
+      {x: 2, y: 20},
+      {x: 3, y: 10},
+      {x: 4, y: 4},
     ];
     return {
       data: sampleData,
