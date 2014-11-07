@@ -21,10 +21,12 @@ var Chart = React.createClass({
     var node = this.getDOMNode();
     node.innerHTML = "";
     var margin = 40;
+    var data = this.props.topics[0].data;
     var box = node.getBoundingClientRect();
-    var maxX = d3.max(this.props.data, d => d.x);
-    var maxY = d3.max(this.props.data, d => d.y);
-    var xScale = d3.scale.linear().domain([0, maxX]).range([margin, box.width - margin]);
+    var minX = d3.min(data, d => d[0]);
+    var maxX = d3.max(data, d => d[0]);
+    var maxY = d3.max(data, d => d[1]);
+    var xScale = d3.scale.linear().domain([minX, maxX]).range([margin, box.width - margin]);
     var yScale = d3.scale.linear().domain([0, maxY]).range([box.height - margin, margin]);
     var c = d3.select(node);
     var xAxis = d3.svg.axis()
@@ -34,14 +36,12 @@ var Chart = React.createClass({
       .ticks(10)
       .orient('left');
     var lineFunc = d3.svg.line()
-      .x(d => xScale(d.x))
-      .y(d => yScale(d.y))
+      .x(d => xScale(d[0]))
+      .y(d => yScale(d[1]))
       .interpolate('linear');
     c.append('path')
-      .attr('d', lineFunc(this.props.data))
-      .attr('stroke', 'blue')
-      .attr('stroke-width', 1)
-      .attr('fill', 'none');
+      .attr('class', 'trendline')
+      .attr('d', lineFunc(data));
     c.append('g')
       .attr('class', 'x axis')
       .attr('transform', `translate(0, ${box.height - margin})`)
@@ -55,28 +55,30 @@ var Chart = React.createClass({
 
 var HNTrendUI = React.createClass({
   getInitialState() {
-    var sampleData = [
-      {x: 0, y: 1},
-      {x: 1, y: 2},
-      {x: 2, y: 20},
-      {x: 3, y: 10},
-      {x: 4, y: 4}
-    ];
     return {
-      data: sampleData,
-      domain: {x: [0, 30], y: [0, 100]}
+      topics: []
     }
   },
   componentDidMount() {
-    $.get("http://hn.globalonset.com/api/v0/topic/apple",
+    $.get("http://hn.globalonset.com/api/v0/topic/google",
       null,
-      (data) => { this.setState({topics: [data]}); });
+      (data) => {
+        var newTopics = this.state.topics;
+        newTopics.push(data);
+        this.setState({topics: newTopics});
+      });
     console.log('component mounted');
   },
   render() {
+    var topicNames = this.state.topics.map(i => i.topic).join(", ");
     return (
-      <div className='row'>
-        <Chart data={this.state.data} domain={this.state.domain}/>
+      <div>
+        <div className='row'>
+          <h1 className="col-md-12">{topicNames}</h1>
+        </div>
+        <div className='row'>
+          <Chart topics={this.state.topics}/>
+        </div>
       </div>
     );
   }
