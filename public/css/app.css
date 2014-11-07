@@ -17,14 +17,10 @@ body {
   stroke-width: 1;
 }
 
-.line-0 {
-  stroke: #f40;
-}
-
-.line-1 {
-  stroke: #04f;
-}
-
-.line-2 {
-  stroke: #0f4;
-}
+.line-0 { stroke: #f40; }
+.line-1 { stroke: #04f; }
+.line-2 { stroke: #0f4; }
+.line-3 { stroke: #a04; }
+.line-4 { stroke: #bc0; }
+.line-5 { stroke: #45c; }
+.line-6 { stroke: #5ff; }
