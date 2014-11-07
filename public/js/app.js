@@ -19,12 +19,15 @@ var HNTrendUI = React.createClass({displayName: 'HNTrendUI',
     var query = this.refs.query.getDOMNode().value.trim();
     var topics = query.split(" ");
     topics.forEach(function(t)  {
-      $.get(("http://hn.globalonset.com/api/v0/topic/" + t),
-        null,
-        function(data)  {
+      $.ajax({
+        url: ("http://hn.globalonset.com/api/v0/topic/" + t + "?callback=callback"),
+        jsonp: 'callback',
+        dataType: 'jsonp',
+        success: function(data)  {
           this.addTopic(data)
-        }.bind(this));
-    }.bind(this));
+        }.bind(this)
+      });
+    }.bind(this))
   },
   render:function() {
     var topicNames = this.state.topics.map(function(i)  {return i.topic;}).sort().join(", ");
