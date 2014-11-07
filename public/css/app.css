@@ -1,0 +1,30 @@
+body {
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: black;
+  shape-rendering: crispEdges;
+}
+.axis text {
+  font-family: sans-serif;
+  font-size: 11px;
+}
+
+.trendline {
+  fill: none;
+  stroke-width: 1;
+}
+
+.line-0 {
+  stroke: #f40;
+}
+
+.line-1 {
+  stroke: #04f;
+}
+
+.line-2 {
+  stroke: #0f4;
+}
