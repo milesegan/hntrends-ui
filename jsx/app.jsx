@@ -22,10 +22,10 @@ var Chart = React.createClass({
     node.innerHTML = "";
     var margin = 40;
     var data = this.props.topics[0].data;
-    var box = node.getBoundingClientRect();
     var minX = d3.min(data, d => d[0]);
     var maxX = d3.max(data, d => d[0]);
     var maxY = d3.max(data, d => d[1]);
+    var box = node.getBoundingClientRect();
     var xScale = d3.scale.linear().domain([minX, maxX]).range([margin, box.width - margin]);
     var yScale = d3.scale.linear().domain([0, maxY]).range([box.height - margin, margin]);
     var c = d3.select(node);
@@ -35,13 +35,6 @@ var Chart = React.createClass({
       .scale(yScale)
       .ticks(10)
       .orient('left');
-    var lineFunc = d3.svg.line()
-      .x(d => xScale(d[0]))
-      .y(d => yScale(d[1]))
-      .interpolate('linear');
-    c.append('path')
-      .attr('class', 'trendline')
-      .attr('d', lineFunc(data));
     c.append('g')
       .attr('class', 'x axis')
       .attr('transform', `translate(0, ${box.height - margin})`)
@@ -50,24 +43,39 @@ var Chart = React.createClass({
       .attr('class', 'y axis')
       .attr('transform', `translate(${margin},0)`)
       .call(yAxis);
+    this.props.topics.forEach((t,i) => {
+      var line = i % 7;
+      var lineFunc = d3.svg.line()
+        .x(d => xScale(d[0]))
+        .y(d => yScale(d[1]))
+        .interpolate('linear');
+      c.append('path')
+        .attr('class', `trendline line-${line}`)
+        .attr('d', lineFunc(t.data));
+    });
   }
 });
 
 var HNTrendUI = React.createClass({
+  addTopic(data) {
+    var newTopics = this.state.topics;
+    newTopics.push(data);
+    this.setState({topics: newTopics});
+  },
   getInitialState() {
     return {
       topics: []
     }
   },
   componentDidMount() {
-    $.get("http://hn.globalonset.com/api/v0/topic/google",
-      null,
-      (data) => {
-        var newTopics = this.state.topics;
-        newTopics.push(data);
-        this.setState({topics: newTopics});
-      });
-    console.log('component mounted');
+    var topics = ["apple", "google", "microsoft"];
+    topics.forEach(t => {
+      $.get(`http://hn.globalonset.com/api/v0/topic/${t}`,
+        null,
+        (data) => {
+          this.addTopic(data)
+        });
+    });
   },
   render() {
     var topicNames = this.state.topics.map(i => i.topic).join(", ");
