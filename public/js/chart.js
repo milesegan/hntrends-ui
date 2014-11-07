@@ -16,6 +16,9 @@ var Chart = React.createClass({displayName: 'Chart',
     return false;
   },
   _updateChart:function() {
+    if (this.props.topics.length < 1) {
+      return;
+    }
     function convertDate(d) {
       return new Date(d * 1000 * 60 * 60 * 24);
     }
@@ -30,11 +33,9 @@ var Chart = React.createClass({displayName: 'Chart',
         convertDate(d3.max(data, function(d)  {return d[0];}))
       ])
       .range([margin, box.width - margin]);
+    var maxY = d3.max(this.props.topics, function(t)  {return d3.max(t.data, function(d)  {return d[1];});});
     var yScale = d3.scale.linear()
-      .domain([
-        0,
-        d3.max(data, function(d)  {return d[1];})
-      ])
+      .domain([0, maxY])
       .range([box.height - margin, margin]);
     var c = d3.select(node);
     var xAxis = d3.svg.axis()

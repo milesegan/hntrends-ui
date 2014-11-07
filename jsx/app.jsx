@@ -11,8 +11,13 @@ var HNTrendUI = React.createClass({
       topics: []
     }
   },
-  componentDidMount() {
-    var topics = ["apple", "google", "microsoft"];
+  handleSubmit(event) {
+    event.preventDefault();
+    var newTopics = this.state.topics;
+    newTopics.length = 0;
+    this.setState({ topics: newTopics });
+    var query = this.refs.query.getDOMNode().value.trim();
+    var topics = query.split(" ");
     topics.forEach(t => {
       $.get(`http://hn.globalonset.com/api/v0/topic/${t}`,
         null,
@@ -25,6 +30,12 @@ var HNTrendUI = React.createClass({
     var topicNames = this.state.topics.map(i => i.topic).sort().join(", ");
     return (
       <div>
+        <div className='row'>
+          <form onSubmit={this.handleSubmit}>
+            <input type="text" ref="query" />
+            <input type="submit"/>
+          </form>
+        </div>
         <div className='row'>
           <h1 className="col-md-12">{topicNames}</h1>
         </div>
