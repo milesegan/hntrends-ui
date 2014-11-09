@@ -6,11 +6,7 @@ var ChartLegend = React.createClass({displayName: 'ChartLegend',
       return (React.createElement("div", null));
     }
 
-    var topics = this.props.topics.sort(function(a, b)  {
-      if (a.topic < b.topic) return -1;
-      return 1;
-    });
-    var items = topics.map(function(t, i)  {
+    var items = this.props.topics.map(function(t, i)  {
       var classes = ("legend-box line-" + (i % 5));
       return (
       React.createElement("div", {className: "legend-item"}, 

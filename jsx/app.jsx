@@ -4,6 +4,7 @@ var HNTrendUI = React.createClass({
   addTopic(data) {
     var newTopics = this.state.topics;
     newTopics.push(data);
+    newTopics = _.sortBy(newTopics, t => t.topic);
     this.setState({topics: newTopics});
   },
   getInitialState() {
