@@ -2,6 +2,10 @@ body {
   margin-top: 1em;
 }
 
+input[type=submit] {
+  margin-left: 0.5em;
+}
+
 .axis path,
 .axis line {
   fill: none;
@@ -18,10 +22,36 @@ body {
   stroke-width: 1;
 }
 
-.line-0 { stroke: #f40; }
-.line-1 { stroke: #04f; }
-.line-2 { stroke: #0f4; }
-.line-3 { stroke: #a04; }
-.line-4 { stroke: #bc0; }
-.line-5 { stroke: #45c; }
-.line-6 { stroke: #5ff; }
+.line-0 { stroke: #f40; background: #f40; }
+.line-1 { stroke: #04f; background: #04f; }
+.line-2 { stroke: #094; background: #094; }
+.line-3 { stroke: #a04; background: #a04; }
+.line-4 { stroke: #bc0; background: #bc0; }
+.line-5 { stroke: #45c; background: #45c; }
+.line-6 { stroke: #5aa; background: #5aa; }
+
+.legend {
+  text-align: center;
+  font-size: 95%;
+}
+
+.legend-box {
+  width: 10px;
+  height: 10px;
+  margin-right: 0.25em;
+}
+
+.legend-box {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.legend-item {
+  display: inline-block;
+  margin-right: 1em;
+  vertical-align: middle;
+}
+
+.legend-title {
+  display: inline-block;
+}

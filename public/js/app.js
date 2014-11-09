@@ -30,20 +30,19 @@ var HNTrendUI = React.createClass({displayName: 'HNTrendUI',
     }.bind(this))
   },
   render:function() {
-    var topicNames = this.state.topics.map(function(i)  {return i.topic;}).sort().join(", ");
     return (
       React.createElement("div", null, 
         React.createElement("div", {className: "row"}, 
-          React.createElement("form", {onSubmit: this.handleSubmit}, 
-            React.createElement("input", {type: "text", ref: "query"}), 
-            React.createElement("input", {type: "submit"})
+          React.createElement("form", {className: "form-inline", onSubmit: this.handleSubmit}, 
+            React.createElement("input", {type: "text", placeholder: "Search Terms", className: "form-control", ref: "query"}), 
+            React.createElement("input", {type: "submit", className: "btn btn-primary"})
           )
         ), 
         React.createElement("div", {className: "row"}, 
-          React.createElement("h1", {className: "col-md-12"}, topicNames)
+          React.createElement(Chart, {topics: this.state.topics})
         ), 
         React.createElement("div", {className: "row"}, 
-          React.createElement(Chart, {topics: this.state.topics})
+          React.createElement(ChartLegend, {topics: this.state.topics})
         )
       )
     );

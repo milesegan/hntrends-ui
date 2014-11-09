@@ -1,5 +1,28 @@
 /** @jsx React.DOM */
 
+var ChartLegend = React.createClass({
+  render() {
+    if (this.props.topics.length < 1) {
+      return (<div></div>);
+    }
+
+    var topics = this.props.topics.sort((a, b) => {
+      if (a.topic < b.topic) return -1;
+      return 1;
+    });
+    var items = topics.map((t, i) => {
+      var classes = `legend-box line-${i % 5}`;
+      return (
+      <div className="legend-item">
+        <span className={classes}>&nbsp;</span>
+        <span className="legend-title">{t.topic}</span>
+      </div>
+      );
+    });
+    return (<div className="legend col-md-12">{items}</div>);
+  }
+});
+
 var Chart = React.createClass({
   componentDidUpdate() {
     this._updateChart();
@@ -59,7 +82,7 @@ var Chart = React.createClass({
       var lineFunc = d3.svg.line()
         .x(d => xScale(convertDate(d[0])))
         .y(d => yScale(d[1]))
-        .interpolate('linear');
+        .interpolate('basis');
       c.append('path')
         .attr('class', `trendline line-${line}`)
         .attr('d', lineFunc(t.data));

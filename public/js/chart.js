@@ -1,5 +1,28 @@
 /** @jsx React.DOM */
 
+var ChartLegend = React.createClass({displayName: 'ChartLegend',
+  render:function() {
+    if (this.props.topics.length < 1) {
+      return (React.createElement("div", null));
+    }
+
+    var topics = this.props.topics.sort(function(a, b)  {
+      if (a.topic < b.topic) return -1;
+      return 1;
+    });
+    var items = topics.map(function(t, i)  {
+      var classes = ("legend-box line-" + (i % 5));
+      return (
+      React.createElement("div", {className: "legend-item"}, 
+        React.createElement("span", {className: classes}, " "), 
+        React.createElement("span", {className: "legend-title"}, t.topic)
+      )
+      );
+    });
+    return (React.createElement("div", {className: "legend col-md-12"}, items));
+  }
+});
+
 var Chart = React.createClass({displayName: 'Chart',
   componentDidUpdate:function() {
     this._updateChart();
@@ -59,7 +82,7 @@ var Chart = React.createClass({displayName: 'Chart',
       var lineFunc = d3.svg.line()
         .x(function(d)  {return xScale(convertDate(d[0]));})
         .y(function(d)  {return yScale(d[1]);})
-        .interpolate('linear');
+        .interpolate('basis');
       c.append('path')
         .attr('class', ("trendline line-" + line))
         .attr('d', lineFunc(t.data));

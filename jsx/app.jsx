@@ -30,20 +30,19 @@ var HNTrendUI = React.createClass({
     })
   },
   render() {
-    var topicNames = this.state.topics.map(i => i.topic).sort().join(", ");
     return (
       <div>
         <div className='row'>
-          <form onSubmit={this.handleSubmit}>
-            <input type="text" ref="query" />
-            <input type="submit"/>
+          <form className="form-inline" onSubmit={this.handleSubmit}>
+            <input type="text" placeholder="Search Terms" className="form-control" ref="query" />
+            <input type="submit" className="btn btn-primary"/>
           </form>
         </div>
         <div className='row'>
-          <h1 className="col-md-12">{topicNames}</h1>
+          <Chart topics={this.state.topics}/>
         </div>
         <div className='row'>
-          <Chart topics={this.state.topics}/>
+          <ChartLegend topics={this.state.topics}/>
         </div>
       </div>
     );
