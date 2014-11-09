@@ -25,18 +25,20 @@ var Chart = React.createClass({
     var node = this.getDOMNode();
     node.innerHTML = "";
     var margin = 40;
-    var data = this.props.topics[0].data;
     var box = node.getBoundingClientRect();
+    var minX = d3.min(this.props.topics, t => d3.min(t.data, d => d[0]));
+    var maxX = d3.max(this.props.topics, t => d3.max(t.data, d => d[0]));
     var xScale = d3.time.scale()
       .domain([
-        convertDate(d3.min(data, d => d[0])),
-        convertDate(d3.max(data, d => d[0]))
+        convertDate(minX),
+        convertDate(maxX)
       ])
       .range([margin, box.width - margin]);
     var maxY = d3.max(this.props.topics, t => d3.max(t.data, d => d[1]));
     var yScale = d3.scale.linear()
       .domain([0, maxY])
-      .range([box.height - margin, margin]);
+      .range([box.height - margin, margin])
+      .nice();
     var c = d3.select(node);
     var xAxis = d3.svg.axis()
       .scale(xScale);

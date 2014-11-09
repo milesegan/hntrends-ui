@@ -20,7 +20,7 @@ var HNTrendUI = React.createClass({displayName: 'HNTrendUI',
     var topics = query.split(" ");
     topics.forEach(function(t)  {
       $.ajax({
-        url: ("http://hn.globalonset.com/api/v0/topic/" + t + "?callback=callback"),
+        url: ("http://hntrend-api.globalonset.com/api/v0/topic/" + t + "?callback=callback"),
         jsonp: 'callback',
         dataType: 'jsonp',
         success: function(data)  {
