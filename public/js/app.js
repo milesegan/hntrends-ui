@@ -20,8 +20,9 @@ var HNTrendUI = React.createClass({displayName: 'HNTrendUI',
     var query = this.refs.query.getDOMNode().value.trim();
     var topics = query.split(" ");
     topics.forEach(function(t)  {
+      var encTopic = encodeURIComponent(t);
       $.ajax({
-        url: ("http://hntrend-api.globalonset.com/api/v0/topic/" + t + "?callback=callback"),
+        url: ("http://hntrend-api.globalonset.com/api/v0/topic/" + encTopic + "?callback=callback"),
         jsonp: 'callback',
         dataType: 'jsonp',
         success: function(data)  {
